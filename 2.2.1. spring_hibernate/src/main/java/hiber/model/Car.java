@@ -15,7 +15,7 @@ public class Car  implements Serializable {
     @Column
     private String model;
 
-    @Column
+    @Column(unique = true)
     private int series;
 
 

@@ -1,22 +1,30 @@
 package hiber.model;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
+
+@Component
 @Entity
 @Table(name = "cars")
-public class Car  implements Serializable {
+public class Car {
 
     @Id
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column
+    @Column(name = "model")
     private String model;
 
-    @Column(unique = true)
+    @Column(name = "series")
     private int series;
+
+    @Autowired
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true)
+    private User user;
 
 
     public Car() {
@@ -33,6 +41,14 @@ public class Car  implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getModel() {
@@ -57,5 +73,10 @@ public class Car  implements Serializable {
                 ", model='" + model + '\'' +
                 ", series=" + series +
                 '}';
+    }
+
+    public void setFields(String model, int series) {
+        this.model = model;
+        this.series = series;
     }
 }

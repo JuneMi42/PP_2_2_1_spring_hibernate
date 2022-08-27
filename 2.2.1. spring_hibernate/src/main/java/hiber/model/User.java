@@ -1,15 +1,18 @@
 package hiber.model;
 
 import org.hibernate.annotations.Cascade;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
-
+@Component
 @Entity
 @Table(name = "users")
 public class User {
 
    @Id
+   @Column(name = "id")
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
@@ -22,18 +25,28 @@ public class User {
    @Column(name = "email")
    private String email;
 
-
+   @Autowired
    @OneToOne(mappedBy = "user")
-   @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+   @Cascade(org.hibernate.annotations.CascadeType.ALL)
    private Car car;
 
 
-   public User() {}
-   
+   public User() {
+   }
+
    public User(String firstName, String lastName, String email) {
       this.firstName = firstName;
       this.lastName = lastName;
       this.email = email;
+   }
+
+   public Car getCar() {
+      return car;
+   }
+
+   public void setCar(Car car) {
+      this.car = car;
+      car.setUser(this);
    }
 
    public Long getId() {
@@ -68,14 +81,6 @@ public class User {
       this.email = email;
    }
 
-   public Car getCar() {
-      return car;
-   }
-
-   public void setCar(Car car) {
-      this.car = car;
-      car.setUser(this);
-   }
 
    @Override
    public String toString() {
@@ -85,5 +90,11 @@ public class User {
               ", lastName='" + lastName + '\'' +
               ", email='" + email + '\'' +
               '}';
+   }
+
+   public void setFields(String firstName, String lastName, String email) {
+      this.firstName = firstName;
+      this.lastName = lastName;
+      this.email = email;
    }
 }

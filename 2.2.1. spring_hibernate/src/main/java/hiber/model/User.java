@@ -1,12 +1,10 @@
 package hiber.model;
 
 import org.hibernate.annotations.Cascade;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
-@Component
 @Entity
 @Table(name = "users")
 public class User {
@@ -25,9 +23,8 @@ public class User {
    @Column(name = "email")
    private String email;
 
-   @Autowired
    @OneToOne(mappedBy = "user")
-   @Cascade(org.hibernate.annotations.CascadeType.ALL)
+   @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
    private Car car;
 
 
@@ -90,11 +87,5 @@ public class User {
               ", lastName='" + lastName + '\'' +
               ", email='" + email + '\'' +
               '}';
-   }
-
-   public void setFields(String firstName, String lastName, String email) {
-      this.firstName = firstName;
-      this.lastName = lastName;
-      this.email = email;
    }
 }

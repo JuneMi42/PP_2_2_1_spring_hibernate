@@ -1,7 +1,6 @@
 package hiber.model;
 
 import org.hibernate.annotations.Cascade;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
